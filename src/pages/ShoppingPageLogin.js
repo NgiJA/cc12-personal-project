@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavbarMenu from '../components/NavbarMenu';
 import * as productService from '../api/productApi';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,35 +8,38 @@ import ModalShopLogin from '../components/ui/ModalShopLogin';
 
 function ShoppingPageLogin() {
 	const { userLogout } = useAuth();
+	const navigate = useNavigate();
 	const [products, setProducts] = useState([]);
 	const [isOpen, setIsOpen] = useState(false);
-	const [cartItems, setCartItems] = useState([]);
 	const [cartProducts, setCartProducts] = useState([]);
 
 	const increaseOrderItem = (product) => {
-		const exist = cartItems.find((item) => item.productId === product.id);
+		const exist = cartProducts.find((item) => item.id === product.id);
 		if (exist) {
-			setCartItems(
-				cartItems.map((item) =>
-					item.productId === product.id
-						? { ...item, quantity: exist.quantity + 1 }
+			setCartProducts(
+				cartProducts.map((item) =>
+					item.id === product.id
+						? { ...item, productId: product.id, quantity: exist.quantity + 1 }
 						: item
 				)
 			);
 		} else {
-			setCartItems([...cartItems, { productId: product.id, quantity: 1 }]);
+			setCartProducts([
+				...cartProducts,
+				{ ...product, productId: product.id, quantity: 1 }
+			]);
 		}
 	};
 
 	const decreaseOrderItem = (product) => {
-		const exist = cartItems.find((item) => item.productId === product.id);
+		const exist = cartProducts.find((item) => item.id === product.id);
 		if (exist.quantity === 1) {
-			setCartItems(cartItems.filter((item) => item.productId !== product.id));
+			setCartProducts(cartProducts.filter((item) => item.id !== product.id));
 		} else {
-			setCartItems(
-				cartItems.map((item) =>
-					item.productId === product.id
-						? { ...item, quantity: exist.quantity - 1 }
+			setCartProducts(
+				cartProducts.map((item) =>
+					item.id === product.id
+						? { ...item, productId: product.id, quantity: exist.quantity - 1 }
 						: item
 				)
 			);
@@ -44,19 +47,15 @@ function ShoppingPageLogin() {
 	};
 
 	const removeOrderItem = (product) => {
-		const cartItemsFilter = cartItems.filter(
-			(item) => item.productId !== product.id
+		const cartProductsFilter = cartProducts.filter(
+			(item) => item.id !== product.id
 		);
-		setCartItems(cartItemsFilter);
+		setCartProducts(cartProductsFilter);
 	};
 
-	const addProductCart = (input) => {
-		setCartProducts([...cartProducts, input]);
-	};
-
-	const addMultiple = (input) => {
-		addProductCart(input);
-		increaseOrderItem(input);
+	const goToConfirmOrder = () => {
+		setIsOpen(false);
+		setTimeout(() => navigate('/user/confirmorder'), 1);
 	};
 
 	useEffect(() => {
@@ -67,7 +66,7 @@ function ShoppingPageLogin() {
 		fetchProduct();
 	}, []);
 
-	console.log(cartItems);
+	// console.log(cartProducts);
 
 	return (
 		<>
@@ -106,7 +105,7 @@ function ShoppingPageLogin() {
 										<small>{item.productName}</small>
 										<small
 											className='fw-bold pointer'
-											onClick={() => addMultiple(item)}
+											onClick={() => increaseOrderItem(item)}
 										>
 											Add to cart
 										</small>
@@ -121,6 +120,7 @@ function ShoppingPageLogin() {
 					title='Cart'
 					open={isOpen}
 					onClose={() => setIsOpen(false)}
+					goToConfirmOrder={goToConfirmOrder}
 				>
 					<table className='w-100'>
 						<tbody>
@@ -152,9 +152,7 @@ function ShoppingPageLogin() {
 										>
 											-
 										</div>
-										<div>{cartItems[index].quantity}</div>
-										{/* {console.log(cartItems[index])}
-										{console.log(cartItems[index].quantity)} */}
+										<div>{item.quantity}</div>
 										<div
 											className='fw-bold pointer'
 											onClick={() => increaseOrderItem(item)}
@@ -163,13 +161,14 @@ function ShoppingPageLogin() {
 										</div>
 									</td>
 									<td className='text-center'>
-										{item.price * cartItems[index].quantity} Baht
+										{item.price * item.quantity} Baht
 									</td>
-									<td
-										className='text-center text-secondary fw-bold pointer'
-										onClick={() => removeOrderItem(item)}
-									>
-										X
+									<td className='text-center'>
+										<button
+											type='button'
+											className='btn-close'
+											onClick={() => removeOrderItem(item)}
+										></button>
 									</td>
 								</tr>
 							))}
@@ -179,27 +178,24 @@ function ShoppingPageLogin() {
 						<div></div>
 						<div className='cart-modal-total fw-bold'>
 							Total{' '}
-							{/* {cartProducts.length === 0
+							{cartProducts.length === 0
 								? 0
-								: cartProducts.reduce(
-										(acc, item, index) =>
-											acc + (item.price * cartItems[index].quantity, 0)
-								  )}{' '} */}
-							1000 Baht
+								: cartProducts.reduce((acc, item) => {
+										acc = acc + item.price * item.quantity;
+										return acc;
+								  }, 0)}
+							Baht
 						</div>
 					</div>
-					<div className='d-flex justify-content-end'>
+					{/* <div className='d-flex justify-content-end'>
 						<div></div>
-						<button className='btn btn-dark border-0 px-4 product-add-button'>
-							<Link
-								to='/user/confirmorder'
-								className='text-decoration-none text-white'
-								onClick={() => setIsOpen(false)}
-							>
-								Confirm Order
-							</Link>
+						<button
+							className='btn btn-dark border-0 px-4 product-add-button'
+							onClick={goToConfirmOrder}
+						>
+							Confirm Order
 						</button>
-					</div>
+					</div> */}
 				</ModalShopLogin>
 			</div>
 		</>

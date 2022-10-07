@@ -277,3 +277,8 @@ td {
 	border: 1px solid rgb(230, 230, 230);
 	border-radius: 5px;
 }
+
+.confirm-order-modal-button {
+	margin-right: 20px;
+	margin-bottom: 20px;
+}

@@ -4,7 +4,7 @@ import NavbarMenu from '../components/NavbarMenu';
 import { useLoading } from '../contexts/LoadingContext';
 import { useRef, useState } from 'react';
 import uploadImage from '../assets/images/uploadImage.png';
-import * as productService from '../api/productApi';
+import * as orderService from '../api/orderApi';
 import { toast } from 'react-toastify';
 
 function UserConfirmOrder() {
@@ -31,13 +31,14 @@ function UserConfirmOrder() {
 			startLoading();
 			const formData = new FormData(); // multipart ต้องใช้ท่า new FormData()
 			formData.append('image', file); // (ชื่อ key, value)
-			formData.append('productName', input.productName);
-			formData.append('productType', input.productType);
-			formData.append('price', +input.price);
-			formData.append('stock', +input.stock);
+			formData.append('firstName', input.firstName);
+			formData.append('lastName', input.lastName);
+			formData.append('address', input.address);
+			formData.append('mobile', input.mobile);
+			formData.append('optional', input.optional);
 			console.log(formData);
-			await productService.createProduct(formData);
-			toast.success('success upload');
+			await orderService.createOrderUser(formData);
+			toast.success('success create order');
 			setFile(null);
 		} catch (err) {
 			console.log(err);
