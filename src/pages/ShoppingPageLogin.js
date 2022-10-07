@@ -3,55 +3,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import NavbarMenu from '../components/NavbarMenu';
 import * as productService from '../api/productApi';
 import { useAuth } from '../contexts/AuthContext';
+import { useOrder } from '../contexts/OrderContext';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ModalShopLogin from '../components/ui/ModalShopLogin';
 
 function ShoppingPageLogin() {
 	const { userLogout } = useAuth();
+	const {
+		cartProducts,
+		increaseOrderItem,
+		decreaseOrderItem,
+		removeOrderItem
+	} = useOrder();
 	const navigate = useNavigate();
 	const [products, setProducts] = useState([]);
 	const [isOpen, setIsOpen] = useState(false);
-	const [cartProducts, setCartProducts] = useState([]);
-
-	const increaseOrderItem = (product) => {
-		const exist = cartProducts.find((item) => item.id === product.id);
-		if (exist) {
-			setCartProducts(
-				cartProducts.map((item) =>
-					item.id === product.id
-						? { ...item, productId: product.id, quantity: exist.quantity + 1 }
-						: item
-				)
-			);
-		} else {
-			setCartProducts([
-				...cartProducts,
-				{ ...product, productId: product.id, quantity: 1 }
-			]);
-		}
-	};
-
-	const decreaseOrderItem = (product) => {
-		const exist = cartProducts.find((item) => item.id === product.id);
-		if (exist.quantity === 1) {
-			setCartProducts(cartProducts.filter((item) => item.id !== product.id));
-		} else {
-			setCartProducts(
-				cartProducts.map((item) =>
-					item.id === product.id
-						? { ...item, productId: product.id, quantity: exist.quantity - 1 }
-						: item
-				)
-			);
-		}
-	};
-
-	const removeOrderItem = (product) => {
-		const cartProductsFilter = cartProducts.filter(
-			(item) => item.id !== product.id
-		);
-		setCartProducts(cartProductsFilter);
-	};
+	// const [cartProducts, setCartProducts] = useState([]);
 
 	const goToConfirmOrder = () => {
 		setIsOpen(false);
@@ -61,7 +28,9 @@ function ShoppingPageLogin() {
 	useEffect(() => {
 		const fetchProduct = async () => {
 			const res = await productService.getAllProduct();
-			setProducts(res.data.products);
+			const productsArray = res.data.products;
+
+			setProducts(productsArray);
 		};
 		fetchProduct();
 	}, []);
@@ -91,8 +60,8 @@ function ShoppingPageLogin() {
 			<h1 className='text-center mt-4'>Shop</h1>
 			<div className='shop-item-container'>
 				<div className='shop-item-parent'>
-					{products.map((item) => (
-						<div className='shop-item-border' key={item.id}>
+					{products.map((item, index) => (
+						<div className='shop-item-border' key={index}>
 							<div className='shop-item-content'>
 								<img
 									src={item.image}
@@ -129,7 +98,7 @@ function ShoppingPageLogin() {
 								<th className='text-center'>Price</th>
 								<th className='text-center'>Quantity</th>
 								<th className='text-center'>Total</th>
-								<th className='text-center'>B</th>
+								<th className='text-center'></th>
 							</tr>
 							{cartProducts.map((item, index) => (
 								<tr className='table-row-height' key={index}>
@@ -183,7 +152,7 @@ function ShoppingPageLogin() {
 								: cartProducts.reduce((acc, item) => {
 										acc = acc + item.price * item.quantity;
 										return acc;
-								  }, 0)}
+								  }, 0)}{' '}
 							Baht
 						</div>
 					</div>

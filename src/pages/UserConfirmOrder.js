@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import NavbarMenu from '../components/NavbarMenu';
 import { useLoading } from '../contexts/LoadingContext';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import uploadImage from '../assets/images/uploadImage.png';
 import * as orderService from '../api/orderApi';
 import { toast } from 'react-toastify';
+import { useOrder } from '../contexts/OrderContext';
+import { getUserAccessToken } from '../utils/localStorage';
 
 function UserConfirmOrder() {
 	const { userLogout } = useAuth();
+	const { cartProducts, setCartProducts } = useOrder();
 	const { startLoading, stopLoading } = useLoading();
 	const inputEl = useRef();
 
@@ -17,6 +20,7 @@ function UserConfirmOrder() {
 		firstName: '',
 		lastName: '',
 		address: '',
+		email: '',
 		mobile: '',
 		optional: ''
 	});
@@ -25,19 +29,22 @@ function UserConfirmOrder() {
 		setInput({ ...input, [e.target.name]: e.target.value });
 	};
 
-	const handleUpload = async (e) => {
+	const handleCreateOrder = async (e) => {
 		try {
 			e.preventDefault();
+			const token = getUserAccessToken();
+			console.log(token);
 			startLoading();
 			const formData = new FormData(); // multipart ต้องใช้ท่า new FormData()
-			formData.append('image', file); // (ชื่อ key, value)
+			formData.append('orderItems', JSON.stringify(cartProducts)); // เอา array CartProducts จาก OrderContext มาใส่ใน formData
+			formData.append('slip', file); // (ชื่อ key, value)
 			formData.append('firstName', input.firstName);
 			formData.append('lastName', input.lastName);
 			formData.append('address', input.address);
+			formData.append('email', input.email);
 			formData.append('mobile', input.mobile);
 			formData.append('optional', input.optional);
-			console.log(formData);
-			await orderService.createOrderUser(formData);
+			await orderService.createOrderUser(formData, token);
 			toast.success('success create order');
 			setFile(null);
 		} catch (err) {
@@ -48,9 +55,19 @@ function UserConfirmOrder() {
 		}
 	};
 
+	useEffect(() => {
+		const fetchProduct = async () => {
+			cartProducts.map((item) => delete item['id']);
+
+			setCartProducts([...cartProducts]);
+		};
+		fetchProduct();
+	}, []);
+
 	return (
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
+				{console.log(cartProducts)}
 				<NavbarMenu />
 				<div className='d-flex gap-4 margin-r'>
 					<Link
@@ -122,6 +139,17 @@ function UserConfirmOrder() {
 							/>
 						</div>
 						<div className='mb-4'>
+							<label htmlFor='email' className='d-block'>
+								Email
+							</label>
+							<input
+								className='cu-product-form-input'
+								name='email'
+								value={input.email}
+								onChange={handleChangeInput}
+							/>
+						</div>
+						<div className='mb-4'>
 							<label htmlFor='mobile' className='d-block'>
 								Mobile
 							</label>
@@ -154,7 +182,7 @@ function UserConfirmOrder() {
 							</button>
 							<button
 								className='btn btn-dark align-self-end border-0 px-4'
-								onClick={handleUpload}
+								onClick={handleCreateOrder}
 							>
 								Confirm Order
 							</button>

@@ -1,5 +1,7 @@
 import axios from '../config/axios';
 
 export const getAllOrderAdmin = () => axios.get('/data/order');
-export const createOrderUser = (input) =>
-	axios.post('/user/feature/order', input);
+export const createOrderUser = (input, token) =>
+	axios.post('/user/feature/order', input, {
+		headers: { Authorization: 'Bearer ' + token }
+	});
