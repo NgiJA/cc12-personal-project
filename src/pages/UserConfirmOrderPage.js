@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import NavbarMenu from '../components/NavbarMenu';
 import { useLoading } from '../contexts/LoadingContext';
@@ -14,6 +14,7 @@ function UserConfirmOrder() {
 	const { cartProducts, setCartProducts } = useOrder();
 	const { startLoading, stopLoading } = useLoading();
 	const inputEl = useRef();
+	const navigate = useNavigate();
 
 	const [file, setFile] = useState(null);
 	const [input, setInput] = useState({
@@ -45,6 +46,8 @@ function UserConfirmOrder() {
 			formData.append('mobile', input.mobile);
 			formData.append('optional', input.optional);
 			await orderService.createOrderUser(formData, token);
+			setCartProducts([]);
+			setTimeout(() => navigate('/user/shop'), 1);
 			toast.success('success create order');
 			setFile(null);
 		} catch (err) {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import carousel1 from '../assets/images/carousel1.jpg';
 import carousel2 from '../assets/images/carousel2.jpg';
 import carousel3 from '../assets/images/carousel3.jpg';
-import NavbarMenu from '../components/NavbarMenu';
+import NavbarMenuLogin from '../components/NavbarMenuLogin';
 import { useAuth } from '../contexts/AuthContext';
 import Bottom from '../layouts/bottoms/Bottom';
 
@@ -12,7 +12,7 @@ function HomePageLogin() {
 	return (
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
-				<NavbarMenu />
+				<NavbarMenuLogin />
 				<Link
 					to='/user/home'
 					className='text-decoration-none text-dark link-font-size margin-r'

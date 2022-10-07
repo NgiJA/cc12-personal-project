@@ -282,3 +282,34 @@ td {
 	margin-right: 20px;
 	margin-bottom: 20px;
 }
+
+.cart-count-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+	background-color: rgb(237, 46, 46);
+	color: white;
+	position: absolute;
+	font-size: 14px;
+	right: 95px;
+	top: 10px;
+}
+
+.cart-count-container-modal-open {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+	background-color: rgb(237, 46, 46);
+	color: white;
+	position: absolute;
+	font-size: 14px;
+	right: 95px;
+	top: 10px;
+	margin-right: 17px;
+}

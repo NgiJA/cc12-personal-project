@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import NavbarMenu from '../components/NavbarMenu';
 import * as productService from '../api/productApi';
 import { useAuth } from '../contexts/AuthContext';
 import { useOrder } from '../contexts/OrderContext';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ModalShopLogin from '../components/ui/ModalShopLogin';
+import NavbarMenuLogin from '../components/NavbarMenuLogin';
 
 function ShoppingPageLogin() {
 	const { userLogout } = useAuth();
@@ -35,17 +35,24 @@ function ShoppingPageLogin() {
 		fetchProduct();
 	}, []);
 
-	// console.log(cartProducts);
-
 	return (
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
-				<NavbarMenu />
+				<NavbarMenuLogin />
 				<div className='d-flex gap-4 margin-r'>
 					<ShoppingCartIcon
 						onClick={() => setIsOpen(true)}
 						className='pointer'
 					/>
+					{cartProducts.length === 0 ? (
+						''
+					) : (
+						<div
+							className={`cart-count-container${isOpen ? '-modal-open' : ''}`}
+						>
+							<div>{cartProducts.length}</div>
+						</div>
+					)}
 
 					<Link
 						to='/user/home'
