@@ -11,7 +11,6 @@ function HomePage() {
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
 				<NavbarMenu />
-				<small className='fw-bold'>WSTUDIO</small>
 				<div className='d-flex gap-4 margin-r'>
 					<Link
 						to='/user/signup'
@@ -27,6 +26,7 @@ function HomePage() {
 					</Link>
 				</div>
 			</div>
+			<small className='fw-bold brand-center'>WSTUDIO</small>
 			<Carousel>
 				<Carousel.Item interval={1000}>
 					<img className='d-block w-100' src={carousel1} alt='First slide' />

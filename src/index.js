@@ -7,8 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import AuthContextProvider from './contexts/AuthContext';
 import LoadingContextProvider from './contexts/LoadingContext';
+import AuthContextProvider from './contexts/AuthContext';
+import OrderContextProvider from './contexts/OrderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +17,9 @@ root.render(
 	<BrowserRouter>
 		<LoadingContextProvider>
 			<AuthContextProvider>
-				<App />
+				<OrderContextProvider>
+					<App />
+				</OrderContextProvider>
 			</AuthContextProvider>
 		</LoadingContextProvider>
 	</BrowserRouter>

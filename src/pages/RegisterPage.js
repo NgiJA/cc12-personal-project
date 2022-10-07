@@ -40,24 +40,8 @@ function RegisterPage() {
 
 	return (
 		<div className='vh-100 d-flex flex-column justify-content-between'>
-			<div className='d-flex justify-content-between align-items-center'>
-				<NavbarMenu />
-				<small className='fw-bold'>WSTUDIO</small>
-				<div className='d-flex gap-4 margin-r'>
-					<p
-						to='/user/signup'
-						className='text-decoration-none text-white link-font-size'
-					>
-						SignUp
-					</p>
-					<p
-						to='/user/login'
-						className='text-decoration-none text-white link-font-size'
-					>
-						Login
-					</p>
-				</div>
-			</div>
+			<NavbarMenu />
+			<small className='fw-bold brand-center'>WSTUDIO</small>
 			<div className='d-flex justify-content-around align-items-center'>
 				<img src={logo} width='400' alt='logo' />
 				<div>
