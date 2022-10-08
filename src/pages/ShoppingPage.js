@@ -60,7 +60,10 @@ function ShoppingPage() {
 											Add to cart
 										</small>
 									</div>
-									<small>{item.price} Baht</small>
+									<div className='d-flex justify-content-between'>
+										<small>{item.price} Baht</small>
+										<small>{item.stock} pcs</small>
+									</div>
 								</div>
 							</div>
 						</div>

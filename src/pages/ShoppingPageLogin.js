@@ -8,6 +8,7 @@ import ModalShopLogin from '../components/ui/ModalShopLogin';
 import NavbarMenuLogin from '../components/NavbarMenuLogin';
 import Bottom from '../layouts/bottoms/Bottom';
 import emptyBag from '../assets/images/empty-bag.png';
+import { toast } from 'react-toastify';
 
 function ShoppingPageLogin() {
 	const { userLogout } = useAuth();
@@ -20,9 +21,27 @@ function ShoppingPageLogin() {
 	const navigate = useNavigate();
 	const [products, setProducts] = useState([]);
 	const [isOpen, setIsOpen] = useState(false);
-	// const [cartProducts, setCartProducts] = useState([]);
 
 	const goToConfirmOrder = () => {
+		const checkStock = cartProducts.map((cartItem) => {
+			const calStock = products.map((productItem) => {
+				if (productItem.id === cartItem.productId) {
+					if (productItem.stock - cartItem.quantity < 0) {
+						toast.error(`${productItem.productName} quantity not enougth`);
+						return false;
+					}
+				}
+			});
+			// console.log(calStock);
+			if (calStock.includes(false)) {
+				return false;
+			}
+		});
+		// console.log(checkStock);
+		if (checkStock.includes(false)) {
+			return;
+		}
+
 		setIsOpen(false);
 		setTimeout(() => navigate('/user/confirmorder'), 1);
 	};
@@ -88,7 +107,10 @@ function ShoppingPageLogin() {
 											Add to cart
 										</small>
 									</div>
-									<small>{item.price} Baht</small>
+									<div className='d-flex justify-content-between'>
+										<small>{item.price} Baht</small>
+										<small>{item.stock} pcs</small>
+									</div>
 								</div>
 							</div>
 						</div>
