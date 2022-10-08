@@ -8,6 +8,10 @@
 	cursor: pointer;
 }
 
+.font-normal {
+	font-weight: normal;
+}
+
 .link-font-size {
 	font-size: 14px;
 }
@@ -312,4 +316,120 @@ td {
 	right: 95px;
 	top: 10px;
 	margin-right: 17px;
+}
+
+.user-order-container {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	gap: 10px;
+	width: 80vw;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.user-order-item {
+	width: 100%;
+	background-color: #f7f7f7;
+	border-radius: 3px;
+}
+
+.user-order-content {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 15px;
+}
+
+.user-order-product-container {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.user-order-product-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+}
+
+.user-order-status {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	width: 100px;
+	height: 35px;
+}
+
+.text-light-grey {
+	color: rgb(105, 105, 105);
+}
+
+.no-order-container {
+	position: relative;
+	text-align: center;
+	color: rgb(105, 105, 105);
+	top: 20vh;
+}
+
+.no-cart-item-container {
+	position: relative;
+	text-align: center;
+	color: rgb(105, 105, 105);
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.admin-summary-modal-width {
+	width: 1000px;
+	max-width: none !important;
+}
+
+.modal-admin-confirm-order-container {
+	position: relative;
+	width: 80%;
+	height: 500px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.modal-admin-confirm-order-container {
+	position: relative;
+	width: 90%;
+	height: 480px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.modal-admin-confirm-order-detail {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 600px;
+}
+
+.modal-admin-confirm-order-detail-background {
+	background-color: #ebebeb;
+	height: 30px;
+}
+
+.modal-admin-confirm-order-detail-background-optional {
+	background-color: #ebebeb;
+	height: 100px;
+}
+
+.modal-admin-confirm-order-detail-padding {
+	padding-left: 10px;
+}
+
+.modal-admin-confirm-order-button {
+	position: relative;
+	width: 160px;
+	left: 48px;
+	bottom: 10px;
 }

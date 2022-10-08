@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import NavbarMenu from '../components/NavbarMenu';
+import NavbarMenuLogin from '../components/NavbarMenuLogin';
 import { useLoading } from '../contexts/LoadingContext';
 import { useEffect, useRef, useState } from 'react';
 import uploadImage from '../assets/images/uploadImage.png';
@@ -71,7 +71,7 @@ function UserConfirmOrder() {
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
 				{console.log(cartProducts)}
-				<NavbarMenu />
+				<NavbarMenuLogin />
 				<div className='d-flex gap-4 margin-r'>
 					<Link
 						to='/user/home'

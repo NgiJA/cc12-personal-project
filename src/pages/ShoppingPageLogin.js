@@ -6,6 +6,8 @@ import { useOrder } from '../contexts/OrderContext';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ModalShopLogin from '../components/ui/ModalShopLogin';
 import NavbarMenuLogin from '../components/NavbarMenuLogin';
+import Bottom from '../layouts/bottoms/Bottom';
+import emptyBag from '../assets/images/empty-bag.png';
 
 function ShoppingPageLogin() {
 	const { userLogout } = useAuth();
@@ -97,83 +99,87 @@ function ShoppingPageLogin() {
 					open={isOpen}
 					onClose={() => setIsOpen(false)}
 					goToConfirmOrder={goToConfirmOrder}
+					cartProducts={cartProducts}
 				>
-					<table className='w-100'>
-						<tbody>
-							<tr className='table-header-height'>
-								<th className='text-center cart-product-width'>Product Name</th>
-								<th className='text-center'>Price</th>
-								<th className='text-center'>Quantity</th>
-								<th className='text-center'>Total</th>
-								<th className='text-center'></th>
-							</tr>
-							{cartProducts.map((item, index) => (
-								<tr className='table-row-height' key={index}>
-									<td className='cart-product-item'>
-										<div className='order-list-item'>
-											<img
-												src={item.image}
-												alt='product'
-												width='50'
-												className='order-list-content'
-											/>
-											<small>{item.productName}</small>
-										</div>
-									</td>
-									<td className='text-center'>{item.price} Baht</td>
-									<td className='text-center d-flex justify-content-around align-items-center cart-modal-quantity-heigth'>
-										<div
-											className='fw-bold pointer'
-											onClick={() => decreaseOrderItem(item)}
-										>
-											-
-										</div>
-										<div>{item.quantity}</div>
-										<div
-											className='fw-bold pointer'
-											onClick={() => increaseOrderItem(item)}
-										>
-											+
-										</div>
-									</td>
-									<td className='text-center'>
-										{item.price * item.quantity} Baht
-									</td>
-									<td className='text-center'>
-										<button
-											type='button'
-											className='btn-close'
-											onClick={() => removeOrderItem(item)}
-										></button>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-					<div className='d-flex justify-content-end'>
-						<div></div>
-						<div className='cart-modal-total fw-bold'>
-							Total{' '}
-							{cartProducts.length === 0
-								? 0
-								: cartProducts.reduce((acc, item) => {
-										acc = acc + item.price * item.quantity;
-										return acc;
-								  }, 0)}{' '}
-							Baht
+					{cartProducts.length === 0 ? (
+						<div className='no-cart-item-container'>
+							<img src={emptyBag} alt='empty-bag' width='100' />
+							<div className='pt-4'>You don't have any items</div>
 						</div>
-					</div>
-					{/* <div className='d-flex justify-content-end'>
-						<div></div>
-						<button
-							className='btn btn-dark border-0 px-4 product-add-button'
-							onClick={goToConfirmOrder}
-						>
-							Confirm Order
-						</button>
-					</div> */}
+					) : (
+						<>
+							<table className='w-100'>
+								<tbody>
+									<tr className='table-header-height'>
+										<th className='text-center cart-product-width'>
+											Product Name
+										</th>
+										<th className='text-center'>Price</th>
+										<th className='text-center'>Quantity</th>
+										<th className='text-center'>Total</th>
+										<th className='text-center'></th>
+									</tr>
+									{cartProducts.map((item, index) => (
+										<tr className='table-row-height' key={index}>
+											<td className='cart-product-item'>
+												<div className='order-list-item'>
+													<img
+														src={item.image}
+														alt='product'
+														width='50'
+														className='order-list-content'
+													/>
+													<small>{item.productName}</small>
+												</div>
+											</td>
+											<td className='text-center'>{item.price} Baht</td>
+											<td className='text-center d-flex justify-content-around align-items-center cart-modal-quantity-heigth'>
+												<div
+													className='fw-bold pointer'
+													onClick={() => decreaseOrderItem(item)}
+												>
+													-
+												</div>
+												<div>{item.quantity}</div>
+												<div
+													className='fw-bold pointer'
+													onClick={() => increaseOrderItem(item)}
+												>
+													+
+												</div>
+											</td>
+											<td className='text-center'>
+												{item.price * item.quantity} Baht
+											</td>
+											<td className='text-center'>
+												<button
+													type='button'
+													className='btn-close'
+													onClick={() => removeOrderItem(item)}
+												></button>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+							<div className='d-flex justify-content-end'>
+								<div></div>
+								<div className='cart-modal-total fw-bold'>
+									Total{' '}
+									{cartProducts.length === 0
+										? 0
+										: cartProducts.reduce((acc, item) => {
+												acc = acc + item.price * item.quantity;
+												return acc;
+										  }, 0)}{' '}
+									Baht
+								</div>
+							</div>
+						</>
+					)}
 				</ModalShopLogin>
 			</div>
+			<Bottom />
 		</>
 	);
 }

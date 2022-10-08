@@ -4,11 +4,14 @@ import { useAuth } from '../contexts/AuthContext';
 import * as orderService from '../api/orderApi';
 import { useEffect, useState } from 'react';
 import OrderPagination from '../components/OrderPagination';
+import ModalAdminSummary from '../components/ui/ModalAdminSummary';
 
 function AdminSummary() {
 	const { adminLogout } = useAuth();
 
 	const [orders, setOrders] = useState([]);
+	const [isOpen, setIsOpen] = useState(false);
+	const [modalData, setModalData] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const totalSale = orders.reduce(
@@ -104,9 +107,13 @@ function AdminSummary() {
 									</td>
 									<td className='text-center'>
 										<button
-											className={`btn border-0 btn-${
+											className={`text-light-grey btn border-1 btn-${
 												item.status === 'SUCCESS' ? 'success' : 'info'
 											}`}
+											onClick={() => {
+												setIsOpen(true);
+												setModalData(item);
+											}}
 										>
 											{item.status}
 										</button>
@@ -131,6 +138,65 @@ function AdminSummary() {
 					/>
 				</div>
 			</div>
+			<ModalAdminSummary
+				title='Admin Confirm Order'
+				open={isOpen}
+				onClose={() => setIsOpen(false)}
+			>
+				<div className='modal-admin-confirm-order-container'>
+					<div className='d-flex gap-5'>
+						<div className='modal-admin-confirm-order-detail'>
+							<div>OrderId: {modalData?.id}</div>
+							<div>
+								<div>First Name</div>
+								<div className='modal-admin-confirm-order-detail-background'>
+									<p className='modal-admin-confirm-order-detail-padding'>
+										{modalData?.firstName}
+									</p>
+								</div>
+							</div>
+							<div>
+								<div>Last Name</div>
+								<div className='modal-admin-confirm-order-detail-background'>
+									<p className='modal-admin-confirm-order-detail-padding'>
+										{modalData?.lastName}
+									</p>
+								</div>
+							</div>
+							<div>
+								<div>Mobile</div>
+								<div className='modal-admin-confirm-order-detail-background'>
+									<p className='modal-admin-confirm-order-detail-padding'>
+										{modalData?.mobile}
+									</p>
+								</div>
+							</div>
+							<div>
+								<div>Address</div>
+								<div className='modal-admin-confirm-order-detail-background'>
+									<p className='modal-admin-confirm-order-detail-padding'>
+										{modalData?.address}
+									</p>
+								</div>
+							</div>
+							<div>
+								<div>Optional</div>
+								<div className='modal-admin-confirm-order-detail-background-optional'>
+									<p className='modal-admin-confirm-order-detail-padding'>
+										{modalData?.optional}
+									</p>
+								</div>
+							</div>
+						</div>
+						<div>
+							<img src={modalData?.slip} alt='slip' width='250' />
+						</div>
+					</div>
+				</div>
+				<button className='btn btn-dark border-0 modal-admin-confirm-order-button'>
+					Confirm Order
+				</button>
+			</ModalAdminSummary>
 		</div>
 	);
 }

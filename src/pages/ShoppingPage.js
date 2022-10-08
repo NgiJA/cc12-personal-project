@@ -4,6 +4,7 @@ import NavbarMenu from '../components/NavbarMenu';
 import * as productService from '../api/productApi';
 import AlertLogin from '../components/AlertLogin';
 import ModalShop from '../components/ui/ModalShop';
+import Bottom from '../layouts/bottoms/Bottom';
 
 function ShoppingPage() {
 	const [products, setProducts] = useState([]);
@@ -66,6 +67,7 @@ function ShoppingPage() {
 					))}
 				</div>
 			</div>
+			<Bottom />
 			<ModalShop
 				title='Alert Login'
 				open={isOpen}

@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Modal as BsModal } from 'bootstrap';
 
-function ModalShopLogin({
+function ModalAdminSummary({
 	children,
 	onClose,
 	open,
 	title,
-	goToConfirmOrder,
-	cartProducts
+	goToConfirmOrder
 }) {
 	const modalEl = useRef(); // สิ่งที่ได้จาก useRef() จะเป็น object ที่มี key ชื่อ current และมี value เป็นค่าที่เรากำหนดให้มัน --> { current: <div className='modal fade' tabIndex='-1'></div>}
 	// useRef ทำให้เราเก็บค่า DOM ไว้ในตัวมันได้
@@ -28,7 +27,7 @@ function ModalShopLogin({
 	return (
 		<div className='modal fade' tabIndex='-1' ref={modalEl} onClick={onClose}>
 			<div
-				className='modal-dialog modal-dialog-centered cart-modal-width'
+				className='modal-dialog modal-dialog-centered admin-summary-modal-width'
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className='modal-content'>
@@ -41,22 +40,11 @@ function ModalShopLogin({
 						></button>
 					</div>
 					<div className='modal-body'>{children}</div>
-					<div className='d-flex justify-content-end'>
-						{cartProducts.length === 0 ? (
-							''
-						) : (
-							<button
-								className='btn btn-dark border-0 px-4 product-add-button confirm-order-modal-button'
-								onClick={goToConfirmOrder}
-							>
-								Confirm Order
-							</button>
-						)}
-					</div>
+					<div className='d-flex justify-content-end'></div>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default ModalShopLogin;
+export default ModalAdminSummary;

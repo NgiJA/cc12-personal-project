@@ -32,7 +32,7 @@ function NavbarMenuLogin() {
 									Shop
 								</Link>
 								<Link
-									to='/user/order'
+									to='/user/purchaseorder'
 									className='text-decoration-none text-dark nav-link-item'
 								>
 									My Order
