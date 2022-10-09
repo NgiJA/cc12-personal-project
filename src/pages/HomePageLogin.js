@@ -8,18 +8,21 @@ import { useAuth } from '../contexts/AuthContext';
 import Bottom from '../layouts/bottoms/Bottom';
 
 function HomePageLogin() {
-	const { userLogout } = useAuth();
+	const { userLogout, user } = useAuth();
 	return (
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
 				<NavbarMenuLogin />
-				<Link
-					to='/user/home'
-					className='text-decoration-none text-dark link-font-size margin-r'
-					onClick={userLogout}
-				>
-					Logout
-				</Link>
+				<div className='d-flex align-items-center gap-3 link-font-size'>
+					<p className='mb-0'>{user.username}</p>
+					<Link
+						to='/user/home'
+						className='text-decoration-none text-dark link-font-size margin-r'
+						onClick={userLogout}
+					>
+						Logout
+					</Link>
+				</div>
 			</div>
 			<small className='fw-bold brand-center'>WSTUDIO</small>
 			<Carousel>

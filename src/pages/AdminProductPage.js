@@ -98,8 +98,11 @@ function AdminProductPage() {
 									></img>
 									<p1>{item.productName}</p1>
 								</td>
-								<td className='text-center'>{item.price} Baht</td>
-								<td className='text-center'>10</td>
+								<td className='text-center'>
+									{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+									Baht
+								</td>
+								<td className='text-center'>{item.sale ? item.sale : 0}</td>
 								<td className='text-center'>{item.stock}</td>
 								<td className='text-center'>
 									<button

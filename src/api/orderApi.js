@@ -11,3 +11,6 @@ export const getOrderUser = (token) =>
 	axios.get('/user/feature/purchaseorder', {
 		headers: { Authorization: 'Bearer ' + token }
 	});
+
+export const updateOrderAdmin = (orderId) =>
+	axios.patch(`/admin/order/update/${orderId}`);

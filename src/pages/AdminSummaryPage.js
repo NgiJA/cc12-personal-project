@@ -3,6 +3,7 @@ import SidebarMenu from '../components/SidebarMenu';
 import { useAuth } from '../contexts/AuthContext';
 import * as orderService from '../api/orderApi';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import OrderPagination from '../components/OrderPagination';
 import ModalAdminSummary from '../components/ui/ModalAdminSummary';
 
@@ -42,6 +43,22 @@ function AdminSummary() {
 
 	const currentPageTrigger = currentPage;
 
+	const handleUpdateOrder = async (orderId) => {
+		try {
+			const fetchOrder = async () => {
+				const res = await orderService.getAllOrderAdmin();
+				setOrders(res.data.orders);
+			};
+
+			await orderService.updateOrderAdmin(orderId);
+			toast.success('success update order status');
+			fetchOrder();
+			setIsOpen(false);
+		} catch (err) {
+			toast.error('fail update order status');
+		}
+	};
+
 	useEffect(() => {
 		const fetchOrder = async () => {
 			const res = await orderService.getAllOrderAdmin();
@@ -67,7 +84,7 @@ function AdminSummary() {
 				<table>
 					<tbody>
 						<tr className='table-header-height'>
-							<th className='text-center'>OrderId</th>
+							<th className='text-center '>OrderId</th>
 							<th className='text-center order-date-width'>Date</th>
 							<th className='text-center'>Name</th>
 							<th className='text-center order-list-width'>Order List</th>
@@ -102,12 +119,14 @@ function AdminSummary() {
 										{item.OrderItems.reduce(
 											(acc, item) => (acc = item.price * item.quantity + acc),
 											0
-										)}{' '}
+										)
+											.toString()
+											.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
 										Baht
 									</td>
 									<td className='text-center'>
 										<button
-											className={`text-light-grey btn border-1 btn-${
+											className={`text-white btn border-1 btn-${
 												item.status === 'SUCCESS' ? 'success' : 'info'
 											}`}
 											onClick={() => {
@@ -124,8 +143,11 @@ function AdminSummary() {
 					</tbody>
 				</table>
 				<div className='d-flex justify-content-between align-items-center'>
-					<small className='fw-bold'>Order: {orders.length}</small>
-					<small className='fw-bold'>Total Sale: {totalSale}</small>
+					<small className='text-secondary'>Order: {orders.length}</small>
+					<small className='text-secondary'>
+						Total Sale:{' '}
+						{totalSale.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Baht
+					</small>
 				</div>
 				<div className='d-flex justify-content-between align-items-center'>
 					<div></div>
@@ -193,7 +215,10 @@ function AdminSummary() {
 						</div>
 					</div>
 				</div>
-				<button className='btn btn-dark border-0 modal-admin-confirm-order-button'>
+				<button
+					className='btn btn-dark border-0 modal-admin-confirm-order-button'
+					onClick={() => handleUpdateOrder(modalData?.id)}
+				>
 					Confirm Order
 				</button>
 			</ModalAdminSummary>

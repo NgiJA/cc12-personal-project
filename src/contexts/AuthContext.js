@@ -19,10 +19,16 @@ function AuthContextProvider({ children }) {
 		await authService.register(input);
 	};
 
+	const getUser = async () => {
+		const token = getUserAccessToken();
+		const res = await authService.getUser(token);
+		setUser(res.data.user);
+	};
+
 	const userLogin = async (input) => {
 		const res = await authService.login(input); // login แล้วได้ token มา
 		addUserAccessToken(res.data.token); // เอา token ไปเก็บไว้ใน local starage
-		setUser(true);
+		getUser();
 	};
 
 	const adminLogin = async (input) => {
@@ -43,7 +49,7 @@ function AuthContextProvider({ children }) {
 
 	useEffect(() => {
 		if (getUserAccessToken()) {
-			setUser(true);
+			getUser();
 		}
 		if (getAdminAccessToken()) {
 			setAdmin(true);
@@ -58,6 +64,7 @@ function AuthContextProvider({ children }) {
 				register: register,
 				userLogin: userLogin,
 				userLogout: userLogout,
+				getUser: getUser,
 				adminLogin: adminLogin,
 				adminLogout: adminLogout
 			}}

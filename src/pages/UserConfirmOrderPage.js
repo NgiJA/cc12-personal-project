@@ -10,7 +10,7 @@ import { useOrder } from '../contexts/OrderContext';
 import { getUserAccessToken } from '../utils/localStorage';
 
 function UserConfirmOrder() {
-	const { userLogout } = useAuth();
+	const { userLogout, user } = useAuth();
 	const { cartProducts, setCartProducts } = useOrder();
 	const { startLoading, stopLoading } = useLoading();
 	const inputEl = useRef();
@@ -72,10 +72,11 @@ function UserConfirmOrder() {
 			<div className='d-flex justify-content-between align-items-center'>
 				{console.log(cartProducts)}
 				<NavbarMenuLogin />
-				<div className='d-flex gap-4 margin-r'>
+				<div className='d-flex align-items-center gap-3 link-font-size'>
+					<p className='mb-0'>{user.username}</p>
 					<Link
 						to='/user/home'
-						className='text-decoration-none text-dark link-font-size'
+						className='text-decoration-none text-dark link-font-size margin-r'
 						onClick={userLogout}
 					>
 						Logout

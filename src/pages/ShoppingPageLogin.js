@@ -11,7 +11,7 @@ import emptyBag from '../assets/images/empty-bag.png';
 import { toast } from 'react-toastify';
 
 function ShoppingPageLogin() {
-	const { userLogout } = useAuth();
+	const { userLogout, user } = useAuth();
 	const {
 		cartProducts,
 		increaseOrderItem,
@@ -20,30 +20,48 @@ function ShoppingPageLogin() {
 	} = useOrder();
 	const navigate = useNavigate();
 	const [products, setProducts] = useState([]);
+	const [productType, setProductType] = useState('ALLCATEGORIES');
 	const [isOpen, setIsOpen] = useState(false);
 
 	const goToConfirmOrder = () => {
-		const checkStock = cartProducts.map((cartItem) => {
-			const calStock = products.map((productItem) => {
-				if (productItem.id === cartItem.productId) {
-					if (productItem.stock - cartItem.quantity < 0) {
-						toast.error(`${productItem.productName} quantity not enougth`);
-						return false;
-					}
-				}
-			});
-			// console.log(calStock);
-			if (calStock.includes(false)) {
+		// const checkStock = cartProducts.map((cartItem) => {
+		// 	const calStock = products.map((productItem) => {
+		// 		if (productItem.id === cartItem.productId) {
+		// 			if (productItem.stock - cartItem.quantity < 0) {
+		// 				toast.error(`${productItem.productName} quantity not enougth`);
+		// 				return false;
+		// 			}
+		// 		}
+		// 	});
+		// 	// console.log(calStock);
+		// 	if (calStock.includes(false)) {
+		// 		return false;
+		// 	}
+		// });
+		// // console.log(checkStock);
+		// if (checkStock.includes(false)) {
+		// 	return;
+		// }
+		const checkStock = cartProducts.map((item) => {
+			if (item.stock - item.quantity < 0) {
+				toast.error(`${item.productName} quantity not enougth`);
 				return false;
 			}
 		});
-		// console.log(checkStock);
 		if (checkStock.includes(false)) {
 			return;
 		}
 
 		setIsOpen(false);
 		setTimeout(() => navigate('/user/confirmorder'), 1);
+	};
+
+	const filterProducts = products.filter(
+		(item) => item.productType === productType
+	);
+
+	const handleChangeType = (e) => {
+		setProductType(e.target.value);
 	};
 
 	useEffect(() => {
@@ -60,7 +78,7 @@ function ShoppingPageLogin() {
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
 				<NavbarMenuLogin />
-				<div className='d-flex gap-4 margin-r'>
+				<div className='d-flex align-items-center gap-3 link-font-size'>
 					<ShoppingCartIcon
 						onClick={() => setIsOpen(true)}
 						className='pointer'
@@ -74,10 +92,10 @@ function ShoppingPageLogin() {
 							<div>{cartProducts.length}</div>
 						</div>
 					)}
-
+					<p className='mb-0'>{user.username}</p>
 					<Link
 						to='/user/home'
-						className='text-decoration-none text-dark link-font-size'
+						className='text-decoration-none text-dark link-font-size margin-r'
 						onClick={userLogout}
 					>
 						Logout
@@ -86,35 +104,95 @@ function ShoppingPageLogin() {
 			</div>
 			<small className='fw-bold brand-center'>WSTUDIO</small>
 			<h1 className='text-center mt-4'>Shop</h1>
+			<div className='filter-shop-container'>
+				<small>Sort By: </small>
+				<select
+					className='border-0'
+					name='productType'
+					value={productType}
+					onChange={handleChangeType}
+				>
+					<option className='filter-shop-option' value='ALLCATEGORIES'>
+						Allcategories
+					</option>
+					<option className='filter-shop-option' value='TOP'>
+						Top
+					</option>
+					<option className='filter-shop-option' value='BOTTOM'>
+						Bottom
+					</option>
+					<option className='filter-shop-option' value='FOOTWARE'>
+						Shoes
+					</option>
+				</select>
+			</div>
 			<div className='shop-item-container'>
 				<div className='shop-item-parent'>
-					{products.map((item, index) => (
-						<div className='shop-item-border' key={index}>
-							<div className='shop-item-content'>
-								<img
-									src={item.image}
-									alt='product'
-									width='180'
-									className='align-self-center'
-								/>
-								<div className='shop-item-title'>
-									<div className='d-flex justify-content-between'>
-										<small>{item.productName}</small>
-										<small
-											className='fw-bold pointer'
-											onClick={() => increaseOrderItem(item)}
-										>
-											Add to cart
-										</small>
-									</div>
-									<div className='d-flex justify-content-between'>
-										<small>{item.price} Baht</small>
-										<small>{item.stock} pcs</small>
+					{productType === 'ALLCATEGORIES'
+						? products.map((item, index) => (
+								<div className='shop-item-border' key={index}>
+									<div className='shop-item-content'>
+										<img
+											src={item.image}
+											alt='product'
+											width='180'
+											className='align-self-center'
+										/>
+										<div className='shop-item-title'>
+											<div className='d-flex justify-content-between'>
+												<small>{item.productName}</small>
+												<small
+													className='fw-bold pointer'
+													onClick={() => increaseOrderItem(item)}
+												>
+													Add to cart
+												</small>
+											</div>
+											<div className='d-flex justify-content-between'>
+												<small>
+													{item.price
+														.toString()
+														.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+													Baht
+												</small>
+												<small>{item.stock} pcs</small>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-					))}
+						  ))
+						: filterProducts.map((item, index) => (
+								<div className='shop-item-border' key={index}>
+									<div className='shop-item-content'>
+										<img
+											src={item.image}
+											alt='product'
+											width='180'
+											className='align-self-center'
+										/>
+										<div className='shop-item-title'>
+											<div className='d-flex justify-content-between'>
+												<small>{item.productName}</small>
+												<small
+													className='fw-bold pointer'
+													onClick={() => increaseOrderItem(item)}
+												>
+													Add to cart
+												</small>
+											</div>
+											<div className='d-flex justify-content-between'>
+												<small>
+													{item.price
+														.toString()
+														.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+													Baht
+												</small>
+												<small>{item.stock} pcs</small>
+											</div>
+										</div>
+									</div>
+								</div>
+						  ))}
 				</div>
 				<ModalShopLogin
 					title='Cart'
@@ -154,7 +232,12 @@ function ShoppingPageLogin() {
 													<small>{item.productName}</small>
 												</div>
 											</td>
-											<td className='text-center'>{item.price} Baht</td>
+											<td className='text-center'>
+												{item.price
+													.toString()
+													.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+												Baht
+											</td>
 											<td className='text-center d-flex justify-content-around align-items-center cart-modal-quantity-heigth'>
 												<div
 													className='fw-bold pointer'
@@ -171,7 +254,10 @@ function ShoppingPageLogin() {
 												</div>
 											</td>
 											<td className='text-center'>
-												{item.price * item.quantity} Baht
+												{(item.price * item.quantity)
+													.toString()
+													.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+												Baht
 											</td>
 											<td className='text-center'>
 												<button
@@ -190,10 +276,13 @@ function ShoppingPageLogin() {
 									Total{' '}
 									{cartProducts.length === 0
 										? 0
-										: cartProducts.reduce((acc, item) => {
-												acc = acc + item.price * item.quantity;
-												return acc;
-										  }, 0)}{' '}
+										: cartProducts
+												.reduce((acc, item) => {
+													acc = acc + item.price * item.quantity;
+													return acc;
+												}, 0)
+												.toString()
+												.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
 									Baht
 								</div>
 							</div>

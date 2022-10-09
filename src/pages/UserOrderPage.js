@@ -7,7 +7,7 @@ import { getUserAccessToken } from '../utils/localStorage';
 import * as orderService from '../api/orderApi';
 
 function UserOrder() {
-	const { userLogout } = useAuth();
+	const { userLogout, user } = useAuth();
 	const [purchaseOrders, setPurchaseOrders] = useState([]);
 
 	useEffect(() => {
@@ -25,10 +25,11 @@ function UserOrder() {
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
 				<NavbarMenuLogin />
-				<div className='d-flex gap-4 margin-r'>
+				<div className='d-flex align-items-center gap-3 link-font-size'>
+					<p className='mb-0'>{user.username}</p>
 					<Link
 						to='/user/home'
-						className='text-decoration-none text-dark link-font-size'
+						className='text-decoration-none text-dark link-font-size margin-r'
 						onClick={userLogout}
 					>
 						Logout
@@ -66,15 +67,17 @@ function UserOrder() {
 										</div>
 									))}
 								</div>
-								<small className='fw-bold'>Status</small>
-								<div className='user-order-status'>
-									<button
-										className={`text-light-grey btn border-1 btn-${
-											item.status === 'SUCCESS' ? 'success' : 'info'
-										}`}
-									>
-										{item.status}
-									</button>
+								<div>
+									<small className='fw-bold'>Status</small>
+									<div className='user-order-status'>
+										<button
+											className={`button-status-order text-white btn border-1 btn-${
+												item.status === 'SUCCESS' ? 'success' : 'info'
+											}`}
+										>
+											{item.status}
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>

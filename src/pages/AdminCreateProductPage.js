@@ -43,6 +43,12 @@ function AdminCreateProductPage() {
 			await productService.createProduct(formData);
 			toast.success('success upload');
 			setFile(null);
+			setInput({
+				productName: '',
+				productType: 'TOP',
+				price: 0,
+				stock: 0
+			});
 		} catch (err) {
 			console.log(err);
 			toast.error(err.response?.data.message);

@@ -148,7 +148,6 @@ td {
 .cu-product-image {
 	position: relative;
 	width: 300px;
-	height: 300px;
 }
 
 .cu-product-form {
@@ -298,7 +297,7 @@ td {
 	color: white;
 	position: absolute;
 	font-size: 14px;
-	right: 95px;
+	right: 137px;
 	top: 10px;
 }
 
@@ -313,7 +312,7 @@ td {
 	color: white;
 	position: absolute;
 	font-size: 14px;
-	right: 95px;
+	right: 137px;
 	top: 10px;
 	margin-right: 17px;
 }
@@ -359,7 +358,6 @@ td {
 
 .user-order-status {
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	border-radius: 5px;
 	width: 100px;
@@ -415,7 +413,7 @@ td {
 
 .modal-admin-confirm-order-detail-background {
 	background-color: #ebebeb;
-	height: 30px;
+	height: 26px;
 }
 
 .modal-admin-confirm-order-detail-background-optional {
@@ -432,4 +430,20 @@ td {
 	width: 160px;
 	left: 48px;
 	bottom: 10px;
+}
+
+.button-status-order {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 12px;
+	width: 70px;
+	height: 28px;
+}
+
+.filter-shop-container {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	margin-left: 20px;
 }
