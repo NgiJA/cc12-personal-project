@@ -189,6 +189,7 @@ td {
 	justify-content: center;
 	align-items: center;
 	transition: box-shadow 0.3s;
+	/* animation: fadeInShop 1s; */
 }
 
 .shop-item-border:hover {
@@ -447,3 +448,41 @@ td {
 	gap: 15px;
 	margin-left: 20px;
 }
+
+.carousel-option {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	font-size: 50px;
+	bottom: 40%;
+	transform: translateY(-40%);
+	animation: fadeIn 1.5s;
+}
+
+.carousel-option-text {
+	text-align: left;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+		transform: translateY(0px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(-40%);
+	}
+}
+
+/* @keyframes fadeInShop {
+	0% {
+		opacity: 0;
+		transform: translateY(10%);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+} */

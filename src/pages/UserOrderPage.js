@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { getUserAccessToken } from '../utils/localStorage';
 import * as orderService from '../api/orderApi';
+import dayjs from 'dayjs';
 
 function UserOrder() {
 	const { userLogout, user } = useAuth();
@@ -55,7 +56,9 @@ function UserOrder() {
 								<small className='fw-bold'>
 									Date :{' '}
 									<span className='font-normal'>
-										{item.createdAt.slice(0, 10)}
+										{dayjs(item.createdAt)
+											.locale('th')
+											.format('DD/MM/YYYY HH:mm:ss')}
 									</span>
 								</small>
 								<div className='user-order-product-container'>

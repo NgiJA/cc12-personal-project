@@ -11,7 +11,7 @@ function OrderContextProvider({ children }) {
 			setCartProducts(
 				cartProducts.map((item) =>
 					item.id === product.id
-						? { ...item, productId: product.id, quantity: exist.quantity + 1 }
+						? { ...item, quantity: exist.quantity + 1 }
 						: item
 				)
 			);
@@ -31,7 +31,7 @@ function OrderContextProvider({ children }) {
 			setCartProducts(
 				cartProducts.map((item) =>
 					item.id === product.id
-						? { ...item, productId: product.id, quantity: exist.quantity - 1 }
+						? { ...item, quantity: exist.quantity - 1 }
 						: item
 				)
 			);

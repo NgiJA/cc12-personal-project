@@ -5,10 +5,12 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLoading } from '../contexts/LoadingContext';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
 	const { register } = useAuth();
 	const { startLoading, stopLoading } = useLoading();
+	const navigate = useNavigate();
 
 	const [input, setInput] = useState({
 		username: '',
@@ -29,6 +31,7 @@ function RegisterPage() {
 		try {
 			startLoading();
 			await register(input);
+			navigate('/user/home');
 			toast.success('success register');
 		} catch (err) {
 			toast.error(err.response.data.message);

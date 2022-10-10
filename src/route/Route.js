@@ -19,21 +19,6 @@ function Router() {
 
 	return (
 		<Routes>
-			{/* {user ? (
-				<>
-					<Route path='/user/home' element={<HomePageLogin />} />
-					<Route path='/admin/summary' element={<AdminSummaryPage />} />
-					<Route path='/admin/product' element={<AdminProductPage />} />
-				</>
-			) : (
-				<>
-					<Route path='/admin/login' element={<AdminLoginPage />} />
-					<Route path='/user/home' element={<HomePage />} />
-					<Route path='/user/signup' element={<RegisterPage />} />
-					<Route path='/user/login' element={<LoginPage />} />
-					<Route path='/user/shop' element={<ShoppingPage />} />
-				</>
-			)} */}
 			{user && admin ? (
 				<>
 					<Route path='/user/home' element={<HomePageLogin />} />

@@ -2,6 +2,7 @@ import Router from './route/Route';
 import { ToastContainer } from 'react-toastify';
 import { useLoading } from './contexts/LoadingContext';
 import Spinner from './components/ui/Spinner';
+import 'dayjs/locale/th';
 
 function App() {
 	const { loading } = useLoading();

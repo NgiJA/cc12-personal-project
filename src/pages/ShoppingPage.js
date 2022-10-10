@@ -24,6 +24,7 @@ function ShoppingPage() {
 			const res = await productService.getAllProduct();
 			setProducts(res.data.products);
 		};
+
 		fetchProduct();
 	}, []);
 

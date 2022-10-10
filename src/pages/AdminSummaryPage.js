@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import OrderPagination from '../components/OrderPagination';
 import ModalAdminSummary from '../components/ui/ModalAdminSummary';
+import dayjs from 'dayjs';
 
 function AdminSummary() {
 	const { adminLogout } = useAuth();
@@ -95,7 +96,11 @@ function AdminSummary() {
 							<>
 								<tr className='table-row-height' key={item.id}>
 									<td className='text-center'>{item.id}</td>
-									<td className='text-center'>{item.createdAt.slice(0, 10)}</td>
+									<td className='text-center'>
+										{dayjs(item.createdAt)
+											.locale('th')
+											.format('DD/MM/YYYY HH:mm:ss')}
+									</td>
 									<td className='text-center'>
 										{item.firstName} {item.lastName}
 									</td>

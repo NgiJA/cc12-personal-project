@@ -28,12 +28,24 @@ function HomePageLogin() {
 			<Carousel>
 				<Carousel.Item interval={1000}>
 					<img className='d-block w-100' src={carousel1} alt='First slide' />
+					<Carousel.Caption className='carousel-option'>
+						<h3 className='carousel-option-text'>New Arrival</h3>
+						<p className='carousel-option-text'>Black Nylon Shorts</p>
+					</Carousel.Caption>
 				</Carousel.Item>
 				<Carousel.Item interval={500}>
 					<img className='d-block w-100' src={carousel2} alt='Second slide' />
+					<Carousel.Caption className='carousel-option'>
+						<h3 className='carousel-option-text'>New Arrival</h3>
+						<p className='carousel-option-text'>Leather Shoes</p>
+					</Carousel.Caption>
 				</Carousel.Item>
 				<Carousel.Item>
 					<img className='d-block w-100' src={carousel3} alt='Third slide' />
+					<Carousel.Caption className='carousel-option'>
+						<h3 className='carousel-option-text'>Meet Us</h3>
+						<p className='carousel-option-text'>Siam Square One 3rd Floor</p>
+					</Carousel.Caption>
 				</Carousel.Item>
 			</Carousel>
 			<Bottom />
