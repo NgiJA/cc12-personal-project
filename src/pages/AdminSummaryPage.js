@@ -220,12 +220,21 @@ function AdminSummary() {
 						</div>
 					</div>
 				</div>
-				<button
-					className='btn btn-dark border-0 modal-admin-confirm-order-button'
-					onClick={() => handleUpdateOrder(modalData?.id)}
-				>
-					Confirm Order
-				</button>
+				{modalData?.status === 'PENDING' ? (
+					<button
+						className='btn btn-dark border-0 modal-admin-confirm-order-button'
+						onClick={() => handleUpdateOrder(modalData?.id)}
+					>
+						Confirm Order
+					</button>
+				) : (
+					<small className='modal-admin-confirm-order-button'>
+						Admin Confirm Date:{' '}
+						{dayjs(modalData?.updatedAt)
+							.locale('th')
+							.format('DD/MM/YYYY HH:mm:ss')}
+					</small>
+				)}
 			</ModalAdminSummary>
 		</div>
 	);

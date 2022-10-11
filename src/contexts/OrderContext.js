@@ -7,6 +7,7 @@ function OrderContextProvider({ children }) {
 
 	const increaseOrderItem = (product) => {
 		const exist = cartProducts.find((item) => item.id === product.id);
+		// console.log(exist);
 		if (exist) {
 			setCartProducts(
 				cartProducts.map((item) =>
@@ -25,6 +26,7 @@ function OrderContextProvider({ children }) {
 
 	const decreaseOrderItem = (product) => {
 		const exist = cartProducts.find((item) => item.id === product.id);
+		// console.log(exist);
 		if (exist.quantity === 1) {
 			setCartProducts(cartProducts.filter((item) => item.id !== product.id));
 		} else {

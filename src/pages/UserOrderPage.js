@@ -21,7 +21,7 @@ function UserOrder() {
 		fetchOrder();
 	}, []);
 
-	console.log(purchaseOrders);
+	// console.log(purchaseOrders);
 	return (
 		<>
 			<div className='d-flex justify-content-between align-items-center'>
@@ -48,7 +48,7 @@ function UserOrder() {
 				<div className='user-order-container'>
 					{purchaseOrders.map((item, index) => (
 						<div className='user-order-item' key={item.id}>
-							{console.log(item)}
+							{/* {console.log(item)} */}
 							<div className='user-order-content'>
 								<small className='fw-bold'>
 									Order : <span className='font-normal'>{index + 1}</span>
@@ -80,6 +80,16 @@ function UserOrder() {
 										>
 											{item.status}
 										</button>
+										{item.status === 'SUCCESS' ? (
+											<small>
+												Admin Confirm:{' '}
+												{dayjs(item.updatedAt)
+													.locale('th')
+													.format('DD/MM/YYYY HH:mm:ss')}
+											</small>
+										) : (
+											''
+										)}
 									</div>
 								</div>
 							</div>

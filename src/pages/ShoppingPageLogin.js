@@ -24,24 +24,6 @@ function ShoppingPageLogin() {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const goToConfirmOrder = () => {
-		// const checkStock = cartProducts.map((cartItem) => {
-		// 	const calStock = products.map((productItem) => {
-		// 		if (productItem.id === cartItem.productId) {
-		// 			if (productItem.stock - cartItem.quantity < 0) {
-		// 				toast.error(`${productItem.productName} quantity not enougth`);
-		// 				return false;
-		// 			}
-		// 		}
-		// 	});
-		// 	// console.log(calStock);
-		// 	if (calStock.includes(false)) {
-		// 		return false;
-		// 	}
-		// });
-		// // console.log(checkStock);
-		// if (checkStock.includes(false)) {
-		// 	return;
-		// }
 		const checkStock = cartProducts.map((item) => {
 			if (item.stock - item.quantity < 0) {
 				toast.error(`${item.productName} quantity not enougth`);
@@ -73,6 +55,8 @@ function ShoppingPageLogin() {
 		};
 		fetchProduct();
 	}, []);
+
+	// console.log(products);
 
 	return (
 		<>
